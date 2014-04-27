@@ -29,6 +29,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** C 2011 grammar built from the C11 Spec */
 grammar C;
 
+@header {
+	package com.rocketscience;
+}
 primaryExpression
 : Identifier
 | Constant
