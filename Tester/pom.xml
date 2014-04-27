@@ -7,8 +7,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>kikolski.com</groupId>
-			<artifactId>Ant</artifactId>
+			<groupId>com.rocketscience</groupId>
+			<artifactId>Grammar</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
