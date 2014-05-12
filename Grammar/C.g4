@@ -31,7 +31,27 @@ grammar C;
 
 @header{
 	package com.rocketscience;
+	import java.util.ArrayList;
+	import java.util.List;
+	
+	
 }
+
+@members{
+	
+	private ArrayList<String> listOfErrorsGlobal=new ArrayList<String>();
+	private boolean isFirst=false;
+	private boolean ifUp=false; 
+	private boolean endExp=false;
+	private boolean isInit=false;
+	private boolean errorInit=false;
+}
+
+
+includeDef
+: '#include <'Identifier'.h>'
+;
+
 
 primaryExpression
 : Identifier
@@ -59,9 +79,8 @@ genericAssociation
 ;
 
 postfixExpression
-: primaryExpression
+: primaryExpression 
 | postfixExpression '[' expression ']'
-| postfixExpression '(' argumentExpressionList? ')'
 | postfixExpression '.' Identifier
 | postfixExpression '->' Identifier
 | postfixExpression '++'
@@ -77,8 +96,45 @@ argumentExpressionList
 | argumentExpressionList ',' assignmentExpression
 ;
 
+moreLessMethodExpression:
+lessMethodExpression
+;
+
+lessMethodExpression
+:
+methodExpression
+;
+
+
+methodExpression
+:
+ primaryExpression '(' argumentExpressionList ')' {if(!isFirst){
+		System.out.println("Metoda z piersza meth");
+		listOfErrorsGlobal.add("IF001");
+		isFirst=true;
+	}
+	else{
+		System.out.println("Mehod OK");
+		
+	}}
+| primaryExpression '(' ')' {
+	
+	if(!isFirst){
+		System.out.println("Metoda bez piersza meth");
+		listOfErrorsGlobal.add("IF001");
+		isFirst=true;
+	}
+	else{
+		System.out.println("Mehod OK");
+		
+	}
+	
+}
+;
+
 unaryExpression
-: postfixExpression
+: {isFirst=true;} postfixExpression 
+| moreLessMethodExpression	
 | '++' unaryExpression
 | '--' unaryExpression
 | unaryOperator castExpression
@@ -107,12 +163,14 @@ multiplicativeExpression
 
 additiveExpression
 : multiplicativeExpression
-| additiveExpression '+' multiplicativeExpression
-| additiveExpression '-' multiplicativeExpression
+| additiveExpression '+' multiplicativeExpression {if(isInit&&!errorInit){ listOfErrorsGlobal.add("D001"); errorInit=true;
+}}
+| additiveExpression '-' multiplicativeExpression {if(isInit&&!errorInit){ listOfErrorsGlobal.add("D001"); errorInit=true;
+}}
 ;
 
 shiftExpression
-: additiveExpression
+: additiveExpression 
 | shiftExpression '<<' additiveExpression
 | shiftExpression '>>' additiveExpression
 ;
@@ -141,14 +199,16 @@ exclusiveOrExpression
 | exclusiveOrExpression '^' andExpression
 ;
 
-inclusiveOrExpression
-: exclusiveOrExpression
+inclusiveOrExpression 
+: exclusiveOrExpression {/*isFirst=true;*/}
 | inclusiveOrExpression '|' exclusiveOrExpression
 ;
 
 logicalAndExpression
-: inclusiveOrExpression
-| logicalAndExpression '&&' inclusiveOrExpression
+: inclusiveOrExpression {if(endExp)isFirst=true;}		//sprawdzenie czy logicalAnd jest wywoływany 2raz czyli sprawdzamy jeden z warunków
+| logicalAndExpression '&&' inclusiveOrExpression { 
+	endExp=true; 
+}
 ;
 
 logicalOrExpression
@@ -206,7 +266,7 @@ initDeclaratorList
 
 initDeclarator
 : declarator
-| declarator '=' initializer
+| declarator '=' {isInit=true; errorInit=false;} initializer 
 ;
 
 storageClassSpecifier
@@ -450,8 +510,8 @@ staticAssertDeclaration
 : '_Static_assert' '(' constantExpression ',' StringLiteral+ ')' ';'
 ;
 
-statement
-: labeledStatement
+statement 
+: labeledStatement 
 | compoundStatement
 | expressionStatement
 | selectionStatement
@@ -476,7 +536,7 @@ blockItemList
 ;
 
 blockItem
-: declaration
+: {isInit=false; errorInit=false;}declaration 
 | statement
 ;
 
@@ -484,8 +544,30 @@ expressionStatement
 : expression? ';'
 ;
 
+
+
+ifGood
+:
+expression {
+	
+}
+;
+
+testExpresstion
+:
+ifGood {System.out.println(ifUp+" if"); isFirst=false;
+	endExp=false;
+} 
+;
+
+initStatement
+:
+statement {ifUp=false;}
+	
+;
+
 selectionStatement
-: 'if' '(' expression ')' statement ('else' statement)?
+: 'if' '(' testExpresstion ')' initStatement ('else' initStatement)? {ifUp=true;}
 | 'switch' '(' expression ')' statement
 ;
 
@@ -504,12 +586,17 @@ jumpStatement
 | 'goto' unaryExpression ';' // GCC extension
 ;
 
-compilationUnit
+compilationUnit returns [ArrayList<String>listOfErrors]
+@init{
+	ArrayList<String> listOfErrors;
+	$listOfErrors=listOfErrorsGlobal;
+}
 : translationUnit? EOF
 ;
 
 translationUnit
-: externalDeclaration
+: includeDef +
+| externalDeclaration
 | translationUnit externalDeclaration
 ;
 
@@ -865,15 +952,15 @@ SChar
 | EscapeSequence
 ;
 
-LineDirective
-: '#' Whitespace? DecimalConstant Whitespace? StringLiteral ~[\r\n]*
--> skip
-;
+//LineDirective
+//: '#' Whitespace? DecimalConstant Whitespace? StringLiteral ~[\r\n]*
+//-> skip
+//;
 
-PragmaDirective
-: '#' Whitespace? 'pragma' Whitespace ~[\r\n]*
--> skip
-;
+//PragmaDirective
+//: '#' Whitespace? 'pragma' Whitespace ~[\r\n]*
+//-> skip
+//;
 
 Whitespace
 : [ \t]+
