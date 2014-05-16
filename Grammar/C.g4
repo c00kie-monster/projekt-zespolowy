@@ -109,23 +109,24 @@ methodExpression
 methodExpression
 :
  primaryExpression '(' argumentExpressionList ')' {if(!isFirst){
-		System.out.println("Metoda z piersza meth");
-		listOfErrorsGlobal.add("IF001");
+		System.out.println("Metoda z piersza meth "+_input.getTokenSource().getLine());
+		
+		listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 		isFirst=true;
 	}
 	else{
-		System.out.println("Mehod OK");
+			System.out.println("Mehod OK"+ _input.getTokenSource().getLine()); 
 		
 	}}
 | primaryExpression '(' ')' {
 	
 	if(!isFirst){
-		System.out.println("Metoda bez piersza meth");
-		listOfErrorsGlobal.add("IF001");
+		System.out.println("Metoda bez piersza meth "+_input.getTokenSource().getLine());
+		listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 		isFirst=true;
 	}
 	else{
-		System.out.println("Mehod OK");
+			System.out.println("Mehod OK"+ _input.getTokenSource().getLine()); 
 		
 	}
 	
@@ -163,9 +164,9 @@ multiplicativeExpression
 
 additiveExpression
 : multiplicativeExpression
-| additiveExpression '+' multiplicativeExpression {if(isInit&&!errorInit){ listOfErrorsGlobal.add("D001"); errorInit=true;
+| additiveExpression '+' multiplicativeExpression {if(isInit&&!errorInit){ listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|D001"); errorInit=true;
 }}
-| additiveExpression '-' multiplicativeExpression {if(isInit&&!errorInit){ listOfErrorsGlobal.add("D001"); errorInit=true;
+| additiveExpression '-' multiplicativeExpression {if(isInit&&!errorInit){ listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|D001"); errorInit=true;
 }}
 ;
 
