@@ -40,11 +40,13 @@ grammar C;
 @members{
 	
 	private ArrayList<String> listOfErrorsGlobal=new ArrayList<String>();
+	private ArrayList<Integer> arrayDemention=new ArrayList<Integer>();
 	private boolean isFirst=false;
 	private boolean ifUp=false; 
 	private boolean endExp=false;
 	private boolean isInit=false;
 	private boolean errorInit=false;
+	private boolean declarationOfArray=false;
 }
 
 
@@ -109,24 +111,29 @@ methodExpression
 methodExpression
 :
  primaryExpression '(' argumentExpressionList ')' {if(!isFirst){
-		System.out.println("Metoda z piersza meth "+_input.getTokenSource().getLine());
+		//System.out.println("Metoda z piersza meth "+_input.getTokenSource().getLine());
 		
 		listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 		isFirst=true;
 	}
 	else{
-			System.out.println("Mehod OK"+ _input.getTokenSource().getLine()); 
+		//	System.out.println("Mehod OK"+ _input.getTokenSource().getLine()); 
 		
-	}}
+	}
+	}
 | primaryExpression '(' ')' {
 	
 	if(!isFirst){
-		System.out.println("Metoda bez piersza meth "+_input.getTokenSource().getLine());
-		listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
+		//System.out.println("Metoda bez piersza meth "+_input.getTokenSource().getLine());
+		
+	System.out.println("in"+ _localctx.getText());
+						System.out.println("in"+ getCurrentToken().getText());
+	
+			listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 		isFirst=true;
 	}
 	else{
-			System.out.println("Mehod OK"+ _input.getTokenSource().getLine()); 
+			//System.out.println("Mehod OK"+ _input.getTokenSource().getLine()); 
 		
 	}
 	
@@ -165,6 +172,7 @@ multiplicativeExpression
 additiveExpression
 : multiplicativeExpression
 | additiveExpression '+' multiplicativeExpression {if(isInit&&!errorInit){ listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|D001"); errorInit=true;
+	
 }}
 | additiveExpression '-' multiplicativeExpression {if(isInit&&!errorInit){ listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|D001"); errorInit=true;
 }}
@@ -222,7 +230,21 @@ conditionalExpression
 ;
 
 assignmentExpression
-: conditionalExpression
+:  conditionalExpression {
+	
+if(declarationOfArray){
+	arrayDemention.add(Integer.valueOf(_localctx.getText()));
+	if(arrayDemention.size()>1){
+		for(int i=1;i<arrayDemention.size();i++){	
+			if((arrayDemention.get(i) & -arrayDemention.get(i))!=arrayDemention.get(i)){
+				System.out.println("zle array def not line "+_input.getTokenSource().getLine() );
+				listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|ARD001");
+			}
+		}
+	}
+}
+
+}
 | unaryExpression assignmentOperator assignmentExpression
 ;
 
@@ -240,7 +262,7 @@ constantExpression
 ;
 
 declaration
-: declarationSpecifiers initDeclaratorList? ';'
+: declarationSpecifiers initDeclaratorList? ';' 
 | staticAssertDeclaration
 ;
 
@@ -261,7 +283,7 @@ declarationSpecifier
 ;
 
 initDeclaratorList
-: initDeclarator
+: {declarationOfArray=true;arrayDemention=new ArrayList<Integer>();} initDeclarator
 | initDeclaratorList ',' initDeclarator
 ;
 
@@ -383,13 +405,16 @@ alignmentSpecifier
 ;
 
 declarator
-: pointer? directDeclarator gccDeclaratorExtension*
+:{//System.out.println("delcaration"+_input.getTokenSource().getLine()); 
+	
+}
+ pointer? directDeclarator gccDeclaratorExtension* 
 ;
 
 directDeclarator
 : Identifier
 | '(' declarator ')'
-| directDeclarator '[' typeQualifierList? assignmentExpression? ']'
+| directDeclarator '[' typeQualifierList? assignmentExpression? ']' 
 | directDeclarator '[' 'static' typeQualifierList? assignmentExpression ']'
 | directDeclarator '[' typeQualifierList 'static' assignmentExpression ']'
 | directDeclarator '[' typeQualifierList? '*' ']'
@@ -532,7 +557,7 @@ compoundStatement
 ;
 
 blockItemList
-: blockItem
+: blockItem {declarationOfArray=false;}
 | blockItemList blockItem
 ;
 
@@ -583,7 +608,7 @@ jumpStatement
 : 'goto' Identifier ';'
 | 'continue' ';'
 | 'break' ';'
-| 'return' expression? ';'
+| 'return' {declarationOfArray=false;} expression? ';'
 | 'goto' unaryExpression ';' // GCC extension
 ;
 
