@@ -47,6 +47,8 @@ grammar C;
 	private boolean isInit=false;
 	private boolean errorInit=false;
 	private boolean declarationOfArray=false;
+	private boolean multiEx=false;
+	private boolean leftMulti=false;
 }
 
 
@@ -111,20 +113,20 @@ methodExpression
 methodExpression
 :
  primaryExpression '(' argumentExpressionList ')' {if(!isFirst){
-		//System.out.println("Metoda z piersza meth "+_input.getTokenSource().getLine());
+		/*System.out.println("Metoda z piersza meth "+_input.getTokenSource().getLine());*/
 		
 		listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 		isFirst=true;
 	}
 	else{
-		//	System.out.println("Mehod OK"+ _input.getTokenSource().getLine()); 
+		/* 	System.out.println("Mehod OK"+ _input.getTokenSource().getLine());*/ 
 		
 	}
 	}
 | primaryExpression '(' ')' {
 	
 	if(!isFirst){
-		//System.out.println("Metoda bez piersza meth "+_input.getTokenSource().getLine());
+		/*System.out.println("Metoda bez piersza meth "+_input.getTokenSource().getLine());*/
 		
 	System.out.println("in"+ _localctx.getText());
 						System.out.println("in"+ getCurrentToken().getText());
@@ -133,7 +135,7 @@ methodExpression
 		isFirst=true;
 	}
 	else{
-			//System.out.println("Mehod OK"+ _input.getTokenSource().getLine()); 
+			/*System.out.println("Mehod OK"+ _input.getTokenSource().getLine());*/ 
 		
 	}
 	
@@ -158,13 +160,37 @@ unaryOperator
 
 castExpression
 : unaryExpression
+{
+ 	if(multiEx||leftMulti){
+	try{
+		
+		int multiplay=Integer.valueOf(_localctx.getText());
+			if((multiplay & -multiplay) == multiplay){
+				listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|M001");
+			}		
+		}
+		catch(NumberFormatException exp){
+			
+		try{			
+		int multiplay=Integer.valueOf(_localctx.getParent().getText().substring(0, _localctx.getParent().getText().indexOf('*')));
+			if((multiplay & -multiplay) == multiplay){
+				listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|M001");
+			}		
+		}
+		catch(NumberFormatException exp1){
+			
+		}
+						
+		}
+	}
+}
 | '(' typeName ')' castExpression
 | '__extension__' '(' typeName ')' castExpression
 ;
 
 multiplicativeExpression
-: castExpression
-| multiplicativeExpression '*' castExpression
+: castExpression {if(multiEx){leftMulti=true;}}
+| multiplicativeExpression '*' { multiEx=true;} castExpression 
 | multiplicativeExpression '/' castExpression
 | multiplicativeExpression '%' castExpression
 ;
@@ -237,7 +263,6 @@ if(declarationOfArray){
 	if(arrayDemention.size()>1){
 		for(int i=1;i<arrayDemention.size();i++){	
 			if((arrayDemention.get(i) & -arrayDemention.get(i))!=arrayDemention.get(i)){
-				System.out.println("zle array def not line "+_input.getTokenSource().getLine() );
 				listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|ARD001");
 			}
 		}
@@ -253,7 +278,7 @@ assignmentOperator
 ;
 
 expression
-: assignmentExpression
+: assignmentExpression {multiEx=false;leftMulti=false;}
 | expression ',' assignmentExpression
 ;
 
@@ -405,7 +430,7 @@ alignmentSpecifier
 ;
 
 declarator
-:{//System.out.println("delcaration"+_input.getTokenSource().getLine()); 
+:{
 	
 }
  pointer? directDeclarator gccDeclaratorExtension* 
