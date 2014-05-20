@@ -1,6 +1,10 @@
 // Generated from C.g4 by ANTLR 4.2
 
 	package com.rocketscience;
+	import java.util.ArrayList;
+	import java.util.List;
+	
+	
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -97,6 +101,19 @@ public class CBaseListener implements CListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterIfGood(@NotNull CParser.IfGoodContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIfGood(@NotNull CParser.IfGoodContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterNestedParenthesesBlock(@NotNull CParser.NestedParenthesesBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -162,6 +179,45 @@ public class CBaseListener implements CListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMoreLessMethodExpression(@NotNull CParser.MoreLessMethodExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMoreLessMethodExpression(@NotNull CParser.MoreLessMethodExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestExpresstion(@NotNull CParser.TestExpresstionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestExpresstion(@NotNull CParser.TestExpresstionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIncludeDef(@NotNull CParser.IncludeDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIncludeDef(@NotNull CParser.IncludeDefContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInitDeclarator(@NotNull CParser.InitDeclaratorContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -182,6 +238,19 @@ public class CBaseListener implements CListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStorageClassSpecifier(@NotNull CParser.StorageClassSpecifierContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLessMethodExpression(@NotNull CParser.LessMethodExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLessMethodExpression(@NotNull CParser.LessMethodExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -260,6 +329,19 @@ public class CBaseListener implements CListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitShiftExpression(@NotNull CParser.ShiftExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMethodExpression(@NotNull CParser.MethodExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMethodExpression(@NotNull CParser.MethodExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -357,19 +439,6 @@ public class CBaseListener implements CListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArgumentExpressionList(@NotNull CParser.ArgumentExpressionListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArgumentExpressionList(@NotNull CParser.ArgumentExpressionListContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAdditiveExpression(@NotNull CParser.AdditiveExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -377,6 +446,19 @@ public class CBaseListener implements CListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAdditiveExpression(@NotNull CParser.AdditiveExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArgumentExpressionList(@NotNull CParser.ArgumentExpressionListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArgumentExpressionList(@NotNull CParser.ArgumentExpressionListContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -396,19 +478,6 @@ public class CBaseListener implements CListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPostfixExpression(@NotNull CParser.PostfixExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPostfixExpression(@NotNull CParser.PostfixExpressionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAlignmentSpecifier(@NotNull CParser.AlignmentSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -416,6 +485,19 @@ public class CBaseListener implements CListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAlignmentSpecifier(@NotNull CParser.AlignmentSpecifierContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPostfixExpression(@NotNull CParser.PostfixExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPostfixExpression(@NotNull CParser.PostfixExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -825,6 +907,19 @@ public class CBaseListener implements CListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInitStatement(@NotNull CParser.InitStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInitStatement(@NotNull CParser.InitStatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterGccDeclaratorExtension(@NotNull CParser.GccDeclaratorExtensionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -968,6 +1063,19 @@ public class CBaseListener implements CListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFunctionSpecifier(@NotNull CParser.FunctionSpecifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionSpecifier(@NotNull CParser.FunctionSpecifierContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLogicalOrExpression(@NotNull CParser.LogicalOrExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1001,19 +1109,6 @@ public class CBaseListener implements CListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGenericAssocList(@NotNull CParser.GenericAssocListContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFunctionSpecifier(@NotNull CParser.FunctionSpecifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunctionSpecifier(@NotNull CParser.FunctionSpecifierContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
