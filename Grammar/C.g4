@@ -49,6 +49,10 @@ grammar C;
 	private boolean declarationOfArray=false;
 	private boolean multiEx=false;
 	private boolean leftMulti=false;
+	
+	private ArrayList<String> getListOfErrorsGlobal(){
+		return listOfErrorsGlobal;
+	}
 }
 
 
@@ -113,29 +117,28 @@ methodExpression
 methodExpression
 :
  primaryExpression '(' argumentExpressionList ')' {if(!isFirst){
-		/*System.out.println("Metoda z piersza meth "+_input.getTokenSource().getLine());*/
+		
 		
 		listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 		isFirst=true;
 	}
 	else{
-		/* 	System.out.println("Mehod OK"+ _input.getTokenSource().getLine());*/ 
+	
 		
 	}
 	}
 | primaryExpression '(' ')' {
 	
 	if(!isFirst){
-		/*System.out.println("Metoda bez piersza meth "+_input.getTokenSource().getLine());*/
 		
-	System.out.println("in"+ _localctx.getText());
-						System.out.println("in"+ getCurrentToken().getText());
+		
+	
 	
 			listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 		isFirst=true;
 	}
 	else{
-			/*System.out.println("Mehod OK"+ _input.getTokenSource().getLine());*/ 
+			
 		
 	}
 	
@@ -606,7 +609,7 @@ expression {
 
 testExpresstion
 :
-ifGood {System.out.println(ifUp+" if"); isFirst=false;
+ifGood { isFirst=false;
 	endExp=false;
 } 
 ;

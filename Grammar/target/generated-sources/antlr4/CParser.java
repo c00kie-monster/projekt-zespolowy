@@ -917,13 +917,13 @@ public class CParser extends Parser {
 				setState(321); argumentExpressionList(0);
 				setState(322); match(RightParen);
 				if(!isFirst){
-						/*System.out.println("Metoda z piersza meth "+_input.getTokenSource().getLine());*/
+						
 						
 						listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 						isFirst=true;
 					}
 					else{
-						/* 	System.out.println("Mehod OK"+ _input.getTokenSource().getLine());*/ 
+					
 						
 					}
 					
@@ -939,16 +939,15 @@ public class CParser extends Parser {
 
 					
 					if(!isFirst){
-						/*System.out.println("Metoda bez piersza meth "+_input.getTokenSource().getLine());*/
 						
-					System.out.println("in"+ _localctx.getText());
-										System.out.println("in"+ getCurrentToken().getText());
+						
+					
 					
 							listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 						isFirst=true;
 					}
 					else{
-							/*System.out.println("Mehod OK"+ _input.getTokenSource().getLine());*/ 
+							
 						
 					}
 					
@@ -6609,7 +6608,7 @@ public class CParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(1190); ifGood();
-			System.out.println(ifUp+" if"); isFirst=false;
+			 isFirst=false;
 				endExp=false;
 
 			}
