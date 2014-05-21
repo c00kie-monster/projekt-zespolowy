@@ -262,6 +262,7 @@ assignmentExpression
 :  conditionalExpression {
 	
 if(declarationOfArray){
+	if(_localctx.getText()!="")
 	arrayDemention.add(Integer.valueOf(_localctx.getText()));
 	if(arrayDemention.size()>1){
 		for(int i=1;i<arrayDemention.size();i++){	
