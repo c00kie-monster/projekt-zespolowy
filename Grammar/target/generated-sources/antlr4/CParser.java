@@ -923,8 +923,7 @@ public class CParser extends Parser {
 						isFirst=true;
 					}
 					else{
-					
-						
+
 					}
 					
 				}
@@ -939,10 +938,6 @@ public class CParser extends Parser {
 
 					
 					if(!isFirst){
-						
-						
-					
-					
 							listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 						isFirst=true;
 					}
@@ -1179,6 +1174,7 @@ public class CParser extends Parser {
 							}		
 						}
 						catch(NumberFormatException exp){
+							/*System.out.println(exp.getStackTrace());*/
 							
 						try{			
 						int multiplay=Integer.valueOf(_localctx.getParent().getText().substring(0, _localctx.getParent().getText().indexOf('*')));
@@ -1187,7 +1183,7 @@ public class CParser extends Parser {
 							}		
 						}
 						catch(NumberFormatException exp1){
-							
+							/*System.out.println(exp1.getStackTrace());*/
 						}
 										
 						}
@@ -2199,7 +2195,8 @@ public class CParser extends Parser {
 
 					
 				if(declarationOfArray){
-					if(_localctx.getText()!="")
+					try{
+					if(!_localctx.getText().equals(""))  /* error */
 					arrayDemention.add(Integer.valueOf(_localctx.getText()));
 					if(arrayDemention.size()>1){
 						for(int i=1;i<arrayDemention.size();i++){	
@@ -2208,6 +2205,11 @@ public class CParser extends Parser {
 							}
 						}
 					}
+					}
+					catch(NumberFormatException exp){
+							/*System.out.println(exp.getStackTrace());*/
+						}
+					
 				}
 
 
@@ -6404,8 +6406,8 @@ public class CParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(1167); blockItem();
 			declarationOfArray=false;
+			setState(1168); blockItem();
 			}
 			_ctx.stop = _input.LT(-1);
 			setState(1174);
@@ -6472,7 +6474,7 @@ public class CParser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				isInit=false; errorInit=false;
+				isInit=false; errorInit=false; declarationOfArray=false;
 				setState(1178); declaration();
 				}
 				break;
@@ -6609,7 +6611,7 @@ public class CParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(1190); ifGood();
-			 isFirst=false;
+			 isFirst=false; declarationOfArray=false;
 				endExp=false;
 
 			}
@@ -6650,7 +6652,7 @@ public class CParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(1193); statement();
-			ifUp=false;
+			ifUp=false; declarationOfArray=false;
 			}
 		}
 		catch (RecognitionException re) {
@@ -6717,7 +6719,7 @@ public class CParser extends Parser {
 					}
 					break;
 				}
-				ifUp=true;
+				ifUp=true; declarationOfArray=false; 
 				}
 				break;
 			case Switch:
@@ -8086,8 +8088,8 @@ public class CParser extends Parser {
 		"\5\u0096L\2\u0488\u047d\3\2\2\2\u0488\u0480\3\2\2\2\u0488\u0485\3\2\2"+
 		"\2\u0489\u0099\3\2\2\2\u048a\u048c\7C\2\2\u048b\u048d\5\u009cO\2\u048c"+
 		"\u048b\3\2\2\2\u048c\u048d\3\2\2\2\u048d\u048e\3\2\2\2\u048e\u048f\7D"+
-		"\2\2\u048f\u009b\3\2\2\2\u0490\u0491\bO\1\2\u0491\u0492\5\u009eP\2\u0492"+
-		"\u0493\bO\1\2\u0493\u0498\3\2\2\2\u0494\u0495\f\3\2\2\u0495\u0497\5\u009e"+
+		"\2\2\u048f\u009b\3\2\2\2\u0490\u0491\bO\1\2\u0491\u0492\bO\1\2\u0492\u0493"+
+		"\5\u009eP\2\u0493\u0498\3\2\2\2\u0494\u0495\f\3\2\2\u0495\u0497\5\u009e"+
 		"P\2\u0496\u0494\3\2\2\2\u0497\u049a\3\2\2\2\u0498\u0496\3\2\2\2\u0498"+
 		"\u0499\3\2\2\2\u0499\u009d\3\2\2\2\u049a\u0498\3\2\2\2\u049b\u049c\bP"+
 		"\1\2\u049c\u049f\5:\36\2\u049d\u049f\5\u0096L\2\u049e\u049b\3\2\2\2\u049e"+

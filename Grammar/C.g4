@@ -123,17 +123,12 @@ methodExpression
 		isFirst=true;
 	}
 	else{
-	
-		
+
 	}
 	}
 | primaryExpression '(' ')' {
 	
 	if(!isFirst){
-		
-		
-	
-	
 			listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
 		isFirst=true;
 	}
@@ -173,6 +168,7 @@ castExpression
 			}		
 		}
 		catch(NumberFormatException exp){
+			/*System.out.println(exp.getStackTrace());*/
 			
 		try{			
 		int multiplay=Integer.valueOf(_localctx.getParent().getText().substring(0, _localctx.getParent().getText().indexOf('*')));
@@ -181,7 +177,7 @@ castExpression
 			}		
 		}
 		catch(NumberFormatException exp1){
-			
+			/*System.out.println(exp1.getStackTrace());*/
 		}
 						
 		}
@@ -262,7 +258,8 @@ assignmentExpression
 :  conditionalExpression {
 	
 if(declarationOfArray){
-	if(_localctx.getText()!="")
+	try{
+	if(!_localctx.getText().equals(""))  /* error */
 	arrayDemention.add(Integer.valueOf(_localctx.getText()));
 	if(arrayDemention.size()>1){
 		for(int i=1;i<arrayDemention.size();i++){	
@@ -271,6 +268,11 @@ if(declarationOfArray){
 			}
 		}
 	}
+	}
+	catch(NumberFormatException exp){
+			/*System.out.println(exp.getStackTrace());*/
+		}
+	
 }
 
 }
@@ -586,13 +588,13 @@ compoundStatement
 ;
 
 blockItemList
-: blockItem {declarationOfArray=false;}
+:{declarationOfArray=false;}blockItem 
 | blockItemList blockItem
 ;
 
 blockItem
-: {isInit=false; errorInit=false;}declaration 
-| statement
+: {isInit=false; errorInit=false; declarationOfArray=false;}declaration 
+| statement 
 ;
 
 expressionStatement
@@ -610,19 +612,19 @@ expression {
 
 testExpresstion
 :
-ifGood { isFirst=false;
+ifGood { isFirst=false; declarationOfArray=false;
 	endExp=false;
 } 
 ;
 
 initStatement
 :
-statement {ifUp=false;}
+statement {ifUp=false; declarationOfArray=false;}
 	
 ;
 
 selectionStatement
-: 'if' '(' testExpresstion ')' initStatement ('else' initStatement)? {ifUp=true;}
+: 'if' '(' testExpresstion ')' initStatement ('else' initStatement)? {ifUp=true; declarationOfArray=false; }
 | 'switch' '(' expression ')' statement
 ;
 
