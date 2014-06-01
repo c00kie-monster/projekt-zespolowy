@@ -3,8 +3,8 @@
 	package com.rocketscience;
 	import java.util.ArrayList;
 	import java.util.List;
-	
-	
+	import java.util.Set;
+	import java.util.HashSet;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -136,6 +136,8 @@ public class CParser extends Parser {
 		
 		private ArrayList<String> listOfErrorsGlobal=new ArrayList<String>();
 		private ArrayList<Integer> arrayDemention=new ArrayList<Integer>();
+		private ArrayList<String> setOfFields=new ArrayList<String>();
+		private ArrayList< ArrayList<String>>globalLists=new ArrayList<ArrayList<String>>();
 		private boolean isFirst=false;
 		private boolean ifUp=false; 
 		private boolean endExp=false;
@@ -145,9 +147,9 @@ public class CParser extends Parser {
 		private boolean multiEx=false;
 		private boolean leftMulti=false;
 		
-		private ArrayList<String> getListOfErrorsGlobal(){
-			return listOfErrorsGlobal;
-		}
+		
+		
+		
 
 	public CParser(TokenStream input) {
 		super(input);
@@ -917,14 +919,10 @@ public class CParser extends Parser {
 				setState(321); argumentExpressionList(0);
 				setState(322); match(RightParen);
 				if(!isFirst){
-						
-						
-						listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
+						globalLists.get(0).add(_input.getTokenSource().getLine()+"|IF001");
 						isFirst=true;
 					}
-					else{
-
-					}
+					
 					
 				}
 				break;
@@ -938,13 +936,11 @@ public class CParser extends Parser {
 
 					
 					if(!isFirst){
-							listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|IF001");
+							globalLists.get(0).add(_input.getTokenSource().getLine()+"|IF001");
 						isFirst=true;
 					}
-					else{
-							
-						
-					}
+					
+					
 					
 
 				}
@@ -1170,7 +1166,7 @@ public class CParser extends Parser {
 						
 						int multiplay=Integer.valueOf(_localctx.getText());
 							if((multiplay & -multiplay) == multiplay){
-								listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|M001");
+								globalLists.get(0).add(_input.getTokenSource().getLine()+"|M001");
 							}		
 						}
 						catch(NumberFormatException exp){
@@ -1179,7 +1175,7 @@ public class CParser extends Parser {
 						try{			
 						int multiplay=Integer.valueOf(_localctx.getParent().getText().substring(0, _localctx.getParent().getText().indexOf('*')));
 							if((multiplay & -multiplay) == multiplay){
-								listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|M001");
+								globalLists.get(0).add(_input.getTokenSource().getLine()+"|M001");
 							}		
 						}
 						catch(NumberFormatException exp1){
@@ -1187,6 +1183,7 @@ public class CParser extends Parser {
 						}
 										
 						}
+						
 					}
 
 				}
@@ -1387,7 +1384,7 @@ public class CParser extends Parser {
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(399); match(Plus);
 						setState(400); multiplicativeExpression(0);
-						if(isInit&&!errorInit){ listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|D001"); errorInit=true;
+						if(isInit&&!errorInit){ globalLists.get(0).add(_input.getTokenSource().getLine()+"|D001"); errorInit=true; 
 						          	
 						          }
 						}
@@ -1401,7 +1398,7 @@ public class CParser extends Parser {
 						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
 						setState(404); match(Minus);
 						setState(405); multiplicativeExpression(0);
-						if(isInit&&!errorInit){ listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|D001"); errorInit=true;
+						if(isInit&&!errorInit){ globalLists.get(0).add(_input.getTokenSource().getLine()+"|D001"); errorInit=true; 
 						          }
 						}
 						break;
@@ -2201,7 +2198,7 @@ public class CParser extends Parser {
 					if(arrayDemention.size()>1){
 						for(int i=1;i<arrayDemention.size();i++){	
 							if((arrayDemention.get(i) & -arrayDemention.get(i))!=arrayDemention.get(i)){
-								listOfErrorsGlobal.add(_input.getTokenSource().getLine()+"|ARD001");
+								globalLists.get(0).add(_input.getTokenSource().getLine()+"|ARD001");
 							}
 						}
 					}
@@ -3972,18 +3969,38 @@ public class CParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-
-				
-
-			setState(750);
+			setState(749);
 			_la = _input.LA(1);
 			if (_la==Star || _la==Caret) {
 				{
-				setState(749); pointer();
+				setState(748); pointer();
 				}
 			}
 
-			setState(752); directDeclarator(0);
+			setState(751); directDeclarator(0);
+			 
+				String name=_localctx.getText();	
+				if(name.indexOf('(')==-1&& name.indexOf('[')==-1){
+				
+					if(!globalLists.get(1).contains(name))
+					globalLists.get(1).add(name);
+				}
+				else{
+					if(name.indexOf('(')!=-1){
+						name=name.substring(0,name.indexOf('('));
+						if(!globalLists.get(1).contains(name))
+						globalLists.get(1).add(name);
+					}else{
+						name=name.substring(0,name.indexOf('['));
+						if(!globalLists.get(1).contains(name))
+						
+						globalLists.get(1).add(name);
+					}
+					
+				}
+				
+
+
 			setState(756);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,57,_ctx);
@@ -6974,7 +6991,7 @@ public class CParser extends Parser {
 	}
 
 	public static class CompilationUnitContext extends ParserRuleContext {
-		public ArrayList<String>listOfErrors;
+		public ArrayList<ArrayList<String>>resultLists;
 		public TerminalNode EOF() { return getToken(CParser.EOF, 0); }
 		public TranslationUnitContext translationUnit() {
 			return getRuleContext(TranslationUnitContext.class,0);
@@ -6997,8 +7014,12 @@ public class CParser extends Parser {
 		CompilationUnitContext _localctx = new CompilationUnitContext(_ctx, getState());
 		enterRule(_localctx, 172, RULE_compilationUnit);
 
-			ArrayList<String> listOfErrors;
-			((CompilationUnitContext)_localctx).listOfErrors = listOfErrorsGlobal;
+			ArrayList<ArrayList<String>>resultLists=new ArrayList<ArrayList<String>>();
+			
+			globalLists.add(listOfErrorsGlobal);
+			globalLists.add(setOfFields);
+			
+			((CompilationUnitContext)_localctx).resultLists = globalLists;	
 
 		int _la;
 		try {
@@ -7699,7 +7720,7 @@ public class CParser extends Parser {
 		"\n-\3.\3.\3.\3.\3.\3.\7.\u02c6\n.\f.\16.\u02c9\13.\3/\3/\3/\3/\3/\5/\u02d0"+
 		"\n/\3\60\3\60\3\61\3\61\3\61\3\61\3\61\3\62\3\62\3\63\3\63\3\63\3\63\3"+
 		"\63\3\63\5\63\u02e1\n\63\3\64\3\64\3\64\3\64\3\64\3\64\3\64\3\64\3\64"+
-		"\3\64\5\64\u02ed\n\64\3\65\3\65\5\65\u02f1\n\65\3\65\3\65\7\65\u02f5\n"+
+		"\3\64\5\64\u02ed\n\64\3\65\5\65\u02f0\n\65\3\65\3\65\3\65\7\65\u02f5\n"+
 		"\65\f\65\16\65\u02f8\13\65\3\66\3\66\3\66\3\66\3\66\3\66\5\66\u0300\n"+
 		"\66\3\66\3\66\3\66\5\66\u0305\n\66\3\66\5\66\u0308\n\66\3\66\3\66\3\66"+
 		"\3\66\3\66\5\66\u030f\n\66\3\66\3\66\3\66\3\66\3\66\3\66\3\66\3\66\3\66"+
@@ -7755,7 +7776,7 @@ public class CParser extends Parser {
 		"\u0269\3\2\2\2J\u0276\3\2\2\2L\u0278\3\2\2\2N\u027a\3\2\2\2P\u028b\3\2"+
 		"\2\2R\u0295\3\2\2\2T\u0297\3\2\2\2V\u02a8\3\2\2\2X\u02bd\3\2\2\2Z\u02bf"+
 		"\3\2\2\2\\\u02cf\3\2\2\2^\u02d1\3\2\2\2`\u02d3\3\2\2\2b\u02d8\3\2\2\2"+
-		"d\u02e0\3\2\2\2f\u02ec\3\2\2\2h\u02ee\3\2\2\2j\u02ff\3\2\2\2l\u033a\3"+
+		"d\u02e0\3\2\2\2f\u02ec\3\2\2\2h\u02ef\3\2\2\2j\u02ff\3\2\2\2l\u033a\3"+
 		"\2\2\2n\u033c\3\2\2\2p\u034c\3\2\2\2r\u0357\3\2\2\2t\u0360\3\2\2\2v\u0375"+
 		"\3\2\2\2x\u0377\3\2\2\2z\u0386\3\2\2\2|\u0388\3\2\2\2~\u039a\3\2\2\2\u0080"+
 		"\u039c\3\2\2\2\u0082\u03a7\3\2\2\2\u0084\u03b6\3\2\2\2\u0086\u03e6\3\2"+
@@ -7948,9 +7969,9 @@ public class CParser extends Parser {
 		"\7?\2\2\u02e4\u02e5\5\u0082B\2\u02e5\u02e6\7@\2\2\u02e6\u02ed\3\2\2\2"+
 		"\u02e7\u02e8\7\65\2\2\u02e8\u02e9\7?\2\2\u02e9\u02ea\58\35\2\u02ea\u02eb"+
 		"\7@\2\2\u02eb\u02ed\3\2\2\2\u02ec\u02e2\3\2\2\2\u02ec\u02e7\3\2\2\2\u02ed"+
-		"g\3\2\2\2\u02ee\u02f0\b\65\1\2\u02ef\u02f1\5v<\2\u02f0\u02ef\3\2\2\2\u02f0"+
-		"\u02f1\3\2\2\2\u02f1\u02f2\3\2\2\2\u02f2\u02f6\5j\66\2\u02f3\u02f5\5l"+
-		"\67\2\u02f4\u02f3\3\2\2\2\u02f5\u02f8\3\2\2\2\u02f6\u02f4\3\2\2\2\u02f6"+
+		"g\3\2\2\2\u02ee\u02f0\5v<\2\u02ef\u02ee\3\2\2\2\u02ef\u02f0\3\2\2\2\u02f0"+
+		"\u02f1\3\2\2\2\u02f1\u02f2\5j\66\2\u02f2\u02f6\b\65\1\2\u02f3\u02f5\5"+
+		"l\67\2\u02f4\u02f3\3\2\2\2\u02f5\u02f8\3\2\2\2\u02f6\u02f4\3\2\2\2\u02f6"+
 		"\u02f7\3\2\2\2\u02f7i\3\2\2\2\u02f8\u02f6\3\2\2\2\u02f9\u02fa\b\66\1\2"+
 		"\u02fa\u0300\7m\2\2\u02fb\u02fc\7?\2\2\u02fc\u02fd\5h\65\2\u02fd\u02fe"+
 		"\7@\2\2\u02fe\u0300\3\2\2\2\u02ff\u02f9\3\2\2\2\u02ff\u02fb\3\2\2\2\u0300"+
@@ -8145,7 +8166,7 @@ public class CParser extends Parser {
 		"\u019a\u019c\u01a8\u01aa\u01bc\u01be\u01ca\u01cc\u01d7\u01e2\u01ee\u01fc"+
 		"\u0207\u0210\u0219\u0226\u022d\u0232\u0237\u023c\u0243\u024e\u0257\u0269"+
 		"\u026d\u0276\u0281\u0286\u028b\u028f\u0293\u0295\u029f\u02a4\u02a8\u02ac"+
-		"\u02b4\u02bd\u02c7\u02cf\u02e0\u02ec\u02f0\u02f6\u02ff\u0304\u0307\u030e"+
+		"\u02b4\u02bd\u02c7\u02cf\u02e0\u02ec\u02ef\u02f6\u02ff\u0304\u0307\u030e"+
 		"\u031d\u0329\u032c\u032e\u0336\u033a\u0348\u034c\u0351\u0354\u0357\u035e"+
 		"\u0360\u0365\u0369\u036e\u0372\u0375\u037e\u0386\u0390\u0398\u039a\u03a4"+
 		"\u03a9\u03ad\u03b3\u03b6\u03bf\u03c4\u03c7\u03cd\u03dd\u03e3\u03e6\u03eb"+

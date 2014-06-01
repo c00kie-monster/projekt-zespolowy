@@ -3,8 +3,8 @@
 	package com.rocketscience;
 	import java.util.ArrayList;
 	import java.util.List;
-	
-	
+	import java.util.Set;
+	import java.util.HashSet;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -95,6 +95,8 @@ public class CLexer extends Lexer {
 		
 		private ArrayList<String> listOfErrorsGlobal=new ArrayList<String>();
 		private ArrayList<Integer> arrayDemention=new ArrayList<Integer>();
+		private ArrayList<String> setOfFields=new ArrayList<String>();
+		private ArrayList< ArrayList<String>>globalLists=new ArrayList<ArrayList<String>>();
 		private boolean isFirst=false;
 		private boolean ifUp=false; 
 		private boolean endExp=false;
@@ -104,9 +106,9 @@ public class CLexer extends Lexer {
 		private boolean multiEx=false;
 		private boolean leftMulti=false;
 		
-		private ArrayList<String> getListOfErrorsGlobal(){
-			return listOfErrorsGlobal;
-		}
+		
+		
+		
 
 
 	public CLexer(CharStream input) {
