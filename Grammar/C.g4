@@ -438,7 +438,7 @@ typeSpecifier
 	| structOrUnionSpecifier
 	| enumSpecifier
 	| typedefName
-	| '__typeof__' '(' constantExpression ')' // GCC extension
+	| '__typeof__' '(' constantExpression ')' 
 
 ;
 
@@ -543,29 +543,33 @@ alignmentSpecifier
 declarator
 :
 	pointer? directDeclarator
-	{ 
-	String name=_localctx.getText();	
-	if(name.indexOf('(')==-1&& name.indexOf('[')==-1){
 	
-		if(!globalLists.get(1).contains(name))
-		globalLists.get(1).add(name);
-	}
-	else{
-		if(name.indexOf('(')!=-1){
-			name=name.substring(0,name.indexOf('('));
-			if(!globalLists.get(1).contains(name))
-			globalLists.get(1).add(name);
-		}else{
-			name=name.substring(0,name.indexOf('['));
-			if(!globalLists.get(1).contains(name))
+	
+	{ 
+		String name=_localctx.getText();
+		
 			
+		if(name.indexOf('(')==-1&& name.indexOf('[')==-1){
+		
+			if(!globalLists.get(1).contains(name))
 			globalLists.get(1).add(name);
 		}
+		else{
+			if(name.indexOf('(')!=-1){
+				name=name.substring(0,name.indexOf('('));
+				if(!globalLists.get(1).contains(name))
+				globalLists.get(1).add(name);
+			}else{
+				name=name.substring(0,name.indexOf('['));
+				if(!globalLists.get(1).contains(name))
+				
+				globalLists.get(1).add(name);
+			}
+			
+		}
 		
-	}
 	
-
-}
+	}
 
 	gccDeclaratorExtension*
 ;

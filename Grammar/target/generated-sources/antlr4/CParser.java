@@ -3979,28 +3979,30 @@ public class CParser extends Parser {
 
 			setState(751); directDeclarator(0);
 			 
-				String name=_localctx.getText();	
-				if(name.indexOf('(')==-1&& name.indexOf('[')==-1){
-				
-					if(!globalLists.get(1).contains(name))
-					globalLists.get(1).add(name);
-				}
-				else{
-					if(name.indexOf('(')!=-1){
-						name=name.substring(0,name.indexOf('('));
-						if(!globalLists.get(1).contains(name))
-						globalLists.get(1).add(name);
-					}else{
-						name=name.substring(0,name.indexOf('['));
-						if(!globalLists.get(1).contains(name))
+					String name=_localctx.getText();
+					
 						
+					if(name.indexOf('(')==-1&& name.indexOf('[')==-1){
+					
+						if(!globalLists.get(1).contains(name))
 						globalLists.get(1).add(name);
 					}
+					else{
+						if(name.indexOf('(')!=-1){
+							name=name.substring(0,name.indexOf('('));
+							if(!globalLists.get(1).contains(name))
+							globalLists.get(1).add(name);
+						}else{
+							name=name.substring(0,name.indexOf('['));
+							if(!globalLists.get(1).contains(name))
+							
+							globalLists.get(1).add(name);
+						}
+						
+					}
 					
-				}
 				
-
-
+				
 			setState(756);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,57,_ctx);
