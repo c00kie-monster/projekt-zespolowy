@@ -8,6 +8,7 @@ import java.util.List;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import com.rocketscience.CLexer;
 import com.rocketscience.CParser;
@@ -25,13 +26,14 @@ public class Main {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		CParser parser = new CParser(tokens);
 		parser.setBuildParseTree(true);
-		// ParserRuleContext tree =parser.compilationUnit();    wykomentowane poniewaz pojawialy sie zdublowane tablice
+		//ParserRuleContext tree =parser.compilationUnit();    //wykomentowane poniewaz pojawialy sie zdublowane tablice
 		listOfErrors = parser.compilationUnit().resultLists;
 		for (ArrayList<String> list : listOfErrors) {
 			for (String value : list) {
 				System.out.println(value);
 			}
+			System.out.println("***************");
 		}
-		// tree.inspect(parser);
+		 //tree.inspect(parser);
 	}
 }
